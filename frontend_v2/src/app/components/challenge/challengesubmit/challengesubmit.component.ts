@@ -8,6 +8,8 @@ import { ApiService } from '../../../services/api.service';
 import { GlobalService } from '../../../services/global.service';
 import { ChallengeService } from '../../../services/challenge.service';
 import { EndpointsService } from '../../../services/endpoints.service';
+import { interval } from 'rxjs';
+
 
 /**
  * Component Class
@@ -144,6 +146,21 @@ export class ChallengesubmitComponent implements OnInit {
   apiCall: any;
 
   /**
+   * File upload progress value
+   */
+  progressValue = 0;
+
+  /**
+   * File upload progress time
+   */
+  curSec = 0;
+
+  /**
+   * Is file seleced
+   */
+  isFileSelected = false;
+
+  /**
    * Selected phase submission conditions
    * @param showSubmissionDetails show the selected phase submission details
    * @param showClock when max submissions per day exceeded
@@ -271,6 +288,24 @@ export class ChallengesubmitComponent implements OnInit {
     }
     this.authToken = this.globalService.getData('refreshJWT');
   }
+
+
+  progress(files: FileList) {
+    this.isFileSelected = true;
+    const fileToUpload = files.item(0);
+    const seconds = fileToUpload.size;
+    const timer$ = interval(10);
+
+    const sub = timer$.subscribe((sec) => {
+      this.progressValue = 0 + sec * 100 / seconds;
+      this.curSec = sec;
+
+      if (this.curSec === seconds) {
+        sub.unsubscribe();
+      }
+    });
+  }
+
 
   /**
    * @param SELF current context

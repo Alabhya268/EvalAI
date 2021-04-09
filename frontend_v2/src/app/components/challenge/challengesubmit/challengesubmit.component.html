@@ -262,8 +262,10 @@
                         [type]="'file'"
                         [value]="''"
                         [message]="inputErrorMessage"
-                        #formsubmit
-                      ></app-input>
+                        #formsubmit (change)="progress($event.target.files)"></app-input>
+                        <div class="progress" *ngIf="isFileSelected">
+                          <mat-progress-bar mode="determinate" [value]="progressValue"></mat-progress-bar>
+                        </div>
                       <div class="input-message" #textValue [class.hidden]="validFileUrl">{{ inputErrorMessage }}</div>
                     </div>
                     <div [hidden]="!isSubmissionUsingUrl">
