@@ -263,6 +263,7 @@
                         [value]="''"
                         [message]="inputErrorMessage"
                         #formsubmit (change)="progress($event.target.files)"></app-input>
+                        <p *ngIf="isFileSelected">{{ progressValue | number }}%</p>
                         <div class="progress" *ngIf="isFileSelected">
                           <mat-progress-bar mode="determinate" [value]="progressValue"></mat-progress-bar>
                         </div>

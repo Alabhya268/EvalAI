@@ -299,8 +299,11 @@ export class ChallengesubmitComponent implements OnInit {
     const sub = timer$.subscribe((sec) => {
       this.progressValue = 0 + sec * 100 / seconds;
       this.curSec = sec;
+      console.log(this.progressValue);
+      
 
       if (this.curSec === seconds) {
+        this.globalService.showToast('success', 'File uploaded sucessfully', 3);
         sub.unsubscribe();
       }
     });
